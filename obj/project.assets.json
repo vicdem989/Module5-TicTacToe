@@ -8,19 +8,19 @@
     "net7.0": []
   },
   "packageFolders": {
-    "/Users/crsimo99/.nuget/packages/": {}
+    "C:\\Users\\vicde\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/crsimo99/projects/mm-201/modules/module_5_TicTacToe/tictactoe.csproj",
+      "projectUniqueName": "c:\\Users\\vicde\\Downloads\\Module5 TicTacToe\\Module5 TicTacToe\\tictactoe.csproj",
       "projectName": "tictactoe",
-      "projectPath": "/Users/crsimo99/projects/mm-201/modules/module_5_TicTacToe/tictactoe.csproj",
-      "packagesPath": "/Users/crsimo99/.nuget/packages/",
-      "outputPath": "/Users/crsimo99/projects/mm-201/modules/module_5_TicTacToe/obj/",
+      "projectPath": "c:\\Users\\vicde\\Downloads\\Module5 TicTacToe\\Module5 TicTacToe\\tictactoe.csproj",
+      "packagesPath": "C:\\Users\\vicde\\.nuget\\packages\\",
+      "outputPath": "c:\\Users\\vicde\\Downloads\\Module5 TicTacToe\\Module5 TicTacToe\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/crsimo99/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\vicde\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
@@ -59,7 +59,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }

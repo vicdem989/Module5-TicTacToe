@@ -1,4 +1,4 @@
-### Introduction:
+n### Introduction:
 
 The traditional game of Tic-Tac-Toe is a classic that many learn to play in their early years. While it may appear to be a simple game, it serves as an excellent project for teaching core programming concepts such as arrays, loops, conditionals, variables, and functions.
 
