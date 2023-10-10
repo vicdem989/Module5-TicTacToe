@@ -1,26 +1,43 @@
 using Utils;
+using TicTacToe;
 
 namespace MAINMENU
 {
     public class MainMenu
     {
 
-
-        public static void test()
+        public static void CreateMainMenu()
         {
-            Console.WriteLine("Hei");
-            Console.WriteLine("HAde");
-            Console.WriteLine(";oll");
+            int choice = MainMenu.MultipleChoice(true, "1P Game", "2P Game", "Settings", "Quit");
+            if (choice == 0)
+            {
+                RenderGame();
+            }
+            else if (choice == 1)
+            {
+                RenderGame();
+            }
+            else if (choice == 2)
+            {
+                Console.WriteLine("Settings coming soon");
+            }
+            else
+            {
+                Environment.Exit(0);
+            }
         }
-    }
-    public class ConsoleHelper
-    {
-        public static int MultipleChoice(bool canCancel, params string[] options)
+
+        private static void RenderGame()
+        {
+            GameLogic game = new GameLogic();
+            game.TicTacToe();
+        }
+        private static int MultipleChoice(bool canCancel, params string[] options)
         {
             const int startX = 15;
-            const int startY = 8;
+            const int startY = 4;
             const int optionsPerLine = 1;
-            const int spacingPerLine = 14;
+            const int spacingPerLine = 0;
 
             int currentSelection = 0;
 
@@ -31,7 +48,8 @@ namespace MAINMENU
             do
             {
                 Console.Clear();
-
+                //If there is a winner
+                //Display winner
                 for (int i = 0; i < options.Length; i++)
                 {
                     Console.SetCursorPosition(startX + (i % optionsPerLine) * spacingPerLine, startY + i / optionsPerLine);
