@@ -2,7 +2,7 @@
 {
     using Utils;
     using MAINMENU;
-    using System.Security.Cryptography.X509Certificates;
+    using SETTINGS;
 
 
     class GameLogic
@@ -19,7 +19,6 @@
         private static int currentPlayer = PLAYER1;
         private static bool isPlaying = true;
 
-
         private static string player1Mark = "X";
         private static string player2Mark = "O";
 
@@ -32,7 +31,7 @@
                 //System.Console.Clear();
                 DrawBoard(board);
                 System.Console.WriteLine("Player " + currentPlayer + "'s turn");
-                string input = System.Console.ReadLine();
+                string input = System.Console.ReadLine() ?? string.Empty;
                 //Check if input is already placed or not
                 int row = int.Parse(input.Split(' ')[0]);
                 int col = int.Parse(input.Split(' ')[1]);

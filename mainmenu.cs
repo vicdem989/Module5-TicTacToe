@@ -1,8 +1,9 @@
-using Utils;
-using TicTacToe;
 
 namespace MAINMENU
 {
+    using Utils;
+    using TicTacToe;
+
     public class MainMenu
     {
 

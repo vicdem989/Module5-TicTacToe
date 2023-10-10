@@ -1,13 +1,14 @@
-using MAINMENU;
-
 namespace TicTacToe
 {
 
+    using MAINMENU;
+    using SETTINGS;
     class Game
     {
         public static void Main(String[] args)
         {
-            MainMenu.CreateMainMenu();
+            Settings.ReadFile();
+            //MainMenu.CreateMainMenu();
         }
 
     }
