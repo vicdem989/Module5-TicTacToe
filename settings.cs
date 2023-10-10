@@ -1,79 +1,94 @@
 namespace SETTINGS
 {
-    using System.Linq.Expressions;
-    using System.Text.RegularExpressions;
+    using System.Runtime.CompilerServices;
+    using System.Text;
+    using LANGUAGE;
+    using MAINMENU;
     public class Settings
     {
 
-        public static string languageSettings = "EN";
-        public static string test = "hei";
+        /*
+
+        Check if config.txt exists
+            if !exists
+                create new file
+                default language to EN
         
-        private static string[] desiredLanguage;
+            else 
+                get language from config.txt
+
+        if currentLanguage == changed
+            output new currentLanguage to config.txt
+        
+
+
+
+        */
 
         private static List<string> settings = new List<string>();
+        private static string path = "config.txt";
 
-        public static void OutputToFile(string languageNEw)
+        public static void CreateSettings()
         {
-            //File.AppendAllText(@"settings.txt", score.ToString() + Environment.NewLine);
-
-            //Remove current languageSettings
-            //Add new
-
-            foreach(string item in settings) {
-                if(item.Contains("language")) {
-                    Console.WriteLine("LMAO        " + item);
-                    settings.Remove("KEKW");
-                }
-            }
-
-            File.AppendAllText(@"settings.txt", "languageSettings = " + languageNEw + Environment.NewLine);
-
-            /*Dictionary<string, string> configuration = new Dictionary<string, string>();
-
-            Regex r = new Regex(@"\[\[(\w+)\]\]=\[\[(\w+)\]\]");
-
-            string[] configArray = { "[[param1]]=[[Value1]]", "[[param2]]=[[Value2]]" };// File.ReadAllLines("some.txt");
-
-            foreach (string config in configArray)
+            //StreamWriter sw = new StreamWriter("config.txt");
+            //sw.Close();
+            int choice = MainMenu.MultipleChoice(true, "English", "Norwegian");
+            if (choice == 0)
             {
-                Match m = r.Match(config);
-                configuration.Add(m.Groups[1].Value, m.Groups[2].Value);
+                Language.currentLanguage = "en";
+                MainMenu.CreateMainMenu();
             }
-            Console.WriteLine(File.ReadAllLines("settings.txt"));*/
-
+            else if (choice == 1)
+            {
+                Language.currentLanguage = "no";
+                MainMenu.CreateMainMenu();
+            }
         }
 
-        public static void ReadFile()
+        public static void OutputToFIle()
         {
-            StreamReader sr = new StreamReader("settings.txt");
-            String line = string.Empty;
-            line = sr.ReadLine() ?? string.Empty;
-            while (line != string.Empty)
-            {
-                line = sr.ReadLine() ?? string.Empty;
-                settings.Add(line);
-            }
-            sr.Close();
-            foreach(string item in settings) {
-                if(item.Contains("languageSettings")) {
-                    desiredLanguage = item.Split("=");
-                    languageSettings = desiredLanguage[1];
-                }
-                Console.WriteLine(item);
-            }
-            Console.WriteLine("New language = " + languageSettings);           
-        }
-
-        /*public static void OutputFileContent()
-        {
-            StreamWriter sw = new StreamWriter("settings.txt");
-            foreach (int score in totalHighscores)
-            {
-                sw.WriteLine(score);
-            }
+            StreamWriter sw = new StreamWriter(path);
+            sw.WriteLine("hei");
+            sw.Write("Language = " + Language.currentLanguage);
             sw.Close();
-        }*/
+        }
 
 
+        public static void SetLanguage(string language)
+        {
+            Language.currentLanguage = language;
+        }
+
+        private static void CreateConfigFile()
+        {
+            if (!File.Exists(path))
+            {
+                FileStream fs = File.Create(path);
+            }
+        }
+
+        public static void GetLanguageFromFile()
+        {
+            CreateConfigFile();
+            StreamReader sr = new StreamReader(path);
+            String line = string.Empty;
+            string[] desiredLanguage;
+            line = sr.ReadLine() ?? string.Empty;
+            if (line.Contains("Language"))
+            {
+                desiredLanguage = line.Split("=");
+                Language.currentLanguage = desiredLanguage[1];
+            }
+            /*while (line != null)
+            {
+                settings.Add(line);
+                if (line.Contains("Language"))
+                {
+                    desiredLanguage = line.Split("=");
+                    Language.currentLanguage = desiredLanguage[1];
+                }
+            }*/
+            sr.Close();
+        }
     }
 }

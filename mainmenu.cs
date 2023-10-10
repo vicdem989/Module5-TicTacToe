@@ -3,6 +3,8 @@ namespace MAINMENU
 {
     using Utils;
     using TicTacToe;
+    using SETTINGS;
+    using LANGUAGE;
 
     public class MainMenu
     {
@@ -20,10 +22,11 @@ namespace MAINMENU
             }
             else if (choice == 2)
             {
-                Console.WriteLine("Settings coming soon");
+                Settings.CreateSettings();
             }
             else
             {
+                Console.WriteLine(Language.currentLanguage);
                 Environment.Exit(0);
             }
         }
@@ -33,7 +36,7 @@ namespace MAINMENU
             GameLogic game = new GameLogic();
             game.TicTacToe();
         }
-        private static int MultipleChoice(bool canCancel, params string[] options)
+        public static int MultipleChoice(bool canCancel, params string[] options)
         {
             const int startX = 15;
             const int startY = 4;
@@ -54,7 +57,6 @@ namespace MAINMENU
                 for (int i = 0; i < options.Length; i++)
                 {
                     Console.SetCursorPosition(startX + (i % optionsPerLine) * spacingPerLine, startY + i / optionsPerLine);
-
                     if (i == currentSelection)
                         Console.ForegroundColor = ConsoleColor.Red;
 

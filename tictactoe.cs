@@ -3,7 +3,7 @@
     using Utils;
     using MAINMENU;
     using SETTINGS;
-
+    using LANGUAGE;
 
     class GameLogic
     {
@@ -38,10 +38,12 @@
                 if (board[row, col] != string.Empty)
                 {
                     Console.WriteLine(row + " " + col);
-                } else {
+                }
+                else
+                {
                     Console.WriteLine("Spot already taken");
                 }
-                
+
 
                 if (currentPlayer == 1)
                 {
@@ -64,6 +66,7 @@
                 }
 
             }
+            Console.WriteLine(Language.currentLanguage);
             MainMenu.CreateMainMenu();
         }
 
