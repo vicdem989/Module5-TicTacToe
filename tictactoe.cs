@@ -125,12 +125,22 @@
 
         void DrawBoard(string[,] board)
         {
+            /*for (int i = 0; i < board.GetLength(0); i++)
+            {
+                Console.Write("    ");
+                Console.Write(i + 1);
+            }*/
+            Console.Write("    1");
+            Console.Write("   2");
+            Console.Write("   3");
+            Console.WriteLine();
             for (int i = 0; i < board.GetLength(0); i++)
             {
-                string row = "| ";
+                string row = "|  ";
                 for (int j = 0; j < board.GetLength(1); j++)
                 {
-                    row += $"{board[i, j]} | ";
+
+                    row += $"{board[i, j]} |  ";
                 }
                 Console.Write(i + 1 + " ");
                 System.Console.WriteLine(row);
