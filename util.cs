@@ -1,3 +1,5 @@
+using System.Reflection.Metadata.Ecma335;
+
 namespace Utils
 {
     public static class ANSI_COLORS
@@ -38,6 +40,18 @@ namespace Utils
         public Output Reset()
         {
             System.Console.Write(ANSI_COLORS.RESET);
+            return this;
+        }
+
+        public Output AddColor(string text, System.ConsoleColor modifier, bool reset = true, bool oneLine = true) {
+            Console.ForegroundColor = modifier;
+            if(oneLine){
+                WriteLine(text);
+            } else {
+                Write(text);
+            }
+            if(reset) 
+                Reset();
             return this;
         }
 
