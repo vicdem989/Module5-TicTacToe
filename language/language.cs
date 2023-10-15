@@ -1,7 +1,9 @@
 
 
 using System.Dynamic;
+using System.Net.NetworkInformation;
 using ENGLISH;
+using NORWEGIAN;
 
 namespace LANGUAGE {
     public class Language {
@@ -9,6 +11,7 @@ namespace LANGUAGE {
         public static string currentLanguage = string.Empty;
 
         public static ApplicationStrings appText = SetDefaultLanguage();
+        public static List<ApplicationStrings> Languages = new List<ApplicationStrings>();
 
         public static ApplicationStrings SetDefaultLanguage() 
         {
@@ -19,6 +22,6 @@ namespace LANGUAGE {
     }
 
     public class ApplicationStrings {
-
+        public string? Welcome { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace SETTINGS
             output new currentLanguage to config.txt
         
 
-
+        Check if language has a file (if exists)
 
         */
 
