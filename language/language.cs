@@ -1,5 +1,6 @@
 
 
+using System.Dynamic;
 using ENGLISH;
 
 namespace LANGUAGE {
@@ -7,7 +8,13 @@ namespace LANGUAGE {
 
         public static string currentLanguage = string.Empty;
 
-        public static ApplicationStrings appText = LangEN.appTextEN;
+        public static ApplicationStrings appText = SetDefaultLanguage();
+
+        public static ApplicationStrings SetDefaultLanguage() 
+        {
+            currentLanguage = "EN";
+            return LangEN.appTextEN;
+        }
 
     }
 

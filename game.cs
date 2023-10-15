@@ -7,11 +7,7 @@ namespace TicTacToe
     {
         public static void Main(String[] args)
         {
-            //Settings.ReadFile();
-            Settings.GetLanguageFromFile();
             Settings.CreateSettings();
-            Settings.OutputToFIle();
-            Console.WriteLine(Language.currentLanguage);
         }
 
     }
