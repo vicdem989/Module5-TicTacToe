@@ -2,7 +2,7 @@
 namespace MAINMENU
 {
     using Utils;
-    using TicTacToe;
+    using TICTACTOE;
     using SETTINGS;
     using LANGUAGE;
 
@@ -33,8 +33,7 @@ namespace MAINMENU
 
         private static void RenderGame()
         {
-            GameLogic game = new GameLogic();
-            game.TicTacToe();
+            TicTacToe game = new TicTacToe();
         }
         public static int MultipleChoice(bool canCancel, params string[] options)
         {

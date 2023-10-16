@@ -1,4 +1,4 @@
-namespace TicTacToe
+namespace TICTACTOE
 {
     using LANGUAGE;
     using MAINMENU;
@@ -7,7 +7,7 @@ namespace TicTacToe
     {
         public static void Main(String[] args)
         {
-            Settings.CreateSettings();
+            TicTacToe game = new TicTacToe();
         }
 
     }

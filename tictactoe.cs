@@ -1,11 +1,12 @@
-﻿namespace TicTacToe
+﻿namespace TICTACTOE
 {
     using Utils;
     using MAINMENU;
     using SETTINGS;
     using LANGUAGE;
+    using System.Reflection.Metadata.Ecma335;
 
-    class GameLogic
+    class TicTacToe
     {
         private const int EMPTY = 0;
         private const int PLAYER1 = 1;
@@ -23,7 +24,7 @@
         private static string player2Mark = "O";
 
 
-        public void TicTacToe()
+        public TicTacToe()
         {
 
             while (isPlaying)
@@ -32,45 +33,94 @@
                 DrawBoard(board);
                 System.Console.WriteLine("Player " + currentPlayer + "'s turn");
                 string input = System.Console.ReadLine() ?? string.Empty;
-                //Check if input is already placed or not
+                //Check if input is already placed or not'
+
                 int row = int.Parse(input.Split(' ')[0]);
                 int col = int.Parse(input.Split(' ')[1]);
-                if (board[row, col] != string.Empty)
-                {
-                    Console.WriteLine(row + " " + col);
-                }
-                else
-                {
-                    Console.WriteLine("Spot already taken");
-                }
 
 
-                if (currentPlayer == 1)
-                {
-                    board[row, col] = player1Mark;
-                }
-                else
-                {
-                    board[row, col] = player2Mark;
-                }
 
-                int gameState = CheckForWin(board);
-                currentPlayer = currentPlayer * -1;
-
-                if (gameState != 0)
+                int boardLength = board.Length / 3 - 1;
+                if (row > boardLength && row < 0 && col > boardLength && col < 0)
                 {
-
-                    DrawBoard(board);
-                    System.Console.WriteLine("Player " + currentPlayer + " wins!");
-                    isPlaying = false;
+                    Console.WriteLine("HSDA");
+                    return;
                 }
+                Console.Clear();
+                while (!CheckInput(input, row, col))
+                {
+                    input = System.Console.ReadLine() ?? string.Empty;
+                    //Check if input is already placed or not
+                    row = int.Parse(input.Split(' ')[0]);
+                    col = int.Parse(input.Split(' ')[1]);
+                }
+                PlaceMarks(row, col);
+
+                CheckGameState();
 
             }
             Console.WriteLine(Language.currentLanguage);
             MainMenu.CreateMainMenu();
         }
 
-        int CheckForWin(string[,] board)
+        private bool CheckInput(string input, int row, int col)
+        {
+
+            bool validRow = false;
+            validRow = int.TryParse(input.Split(' ')[0], out row);
+
+            bool validCol = false;
+            validCol = int.TryParse(input.Split(' ')[1], out col);
+
+            while (!validCol && !validRow)
+            {
+                input = System.Console.ReadLine() ?? string.Empty;
+                //Check if input is already placed or not'
+
+                row = int.Parse(input.Split(' ')[0]);
+                col = int.Parse(input.Split(' ')[1]);
+                Console.WriteLine("Not good input");
+                return false;
+
+            }
+            if (board[row, col] == string.Empty)
+            {
+                Console.WriteLine("Input: " + row + " " + col);
+                return true;
+            }
+
+
+            return false;
+
+        }
+
+        private void PlaceMarks(int row, int col)
+        {
+            if (currentPlayer == 1)
+            {
+                board[row, col] = player1Mark;
+            }
+            else
+            {
+                board[row, col] = player2Mark;
+            }
+
+        }
+        private void CheckGameState()
+        {
+            int gameState = CheckForWin(board);
+            currentPlayer = currentPlayer * -1;
+
+            if (gameState != 0)
+            {
+
+                DrawBoard(board);
+                System.Console.WriteLine("Player " + currentPlayer + " wins!");
+                isPlaying = false;
+            }
+        }
+
+        private int CheckForWin(string[,] board)
         {
 
             int winSum = board.GetLength(0);
@@ -123,24 +173,18 @@
         }
 
 
-        void DrawBoard(string[,] board)
+        private void DrawBoard(string[,] board)
         {
-            /*for (int i = 0; i < board.GetLength(0); i++)
-            {
-                Console.Write("    ");
-                Console.Write(i + 1);
-            }*/
-            Console.Write("    1");
-            Console.Write("   2");
-            Console.Write("   3");
+            Console.Write("    1 ");
+            Console.Write("   2 ");
+            Console.Write("  3 ");
             Console.WriteLine();
             for (int i = 0; i < board.GetLength(0); i++)
             {
                 string row = "|  ";
                 for (int j = 0; j < board.GetLength(1); j++)
                 {
-
-                    row += $"{board[i, j]} |  ";
+                    row += $"{board[i, j]} | ";
                 }
                 Console.Write(i + 1 + " ");
                 System.Console.WriteLine(row);
