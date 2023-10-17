@@ -55,7 +55,9 @@ At times it is advisable to make flowcharts for smaler segments of code.
    - The Player should at any time be able to type r + <Enter> to restart the current game
 
 8. **2p Player hotseat**
-
+   ME - IMPLEMENT 1 PLAYER 
+      YOU PLACE YOUR (PLAYER YOU)
+      AI PLACE RANDOM AT AVAILABLE SPOT (AI)
    - Make it so that it is possible to play 2 player hotseat
    - Change the code so that the players give their name before starting (so no Player 1/2 turn, use theri names )
 

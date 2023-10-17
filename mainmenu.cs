@@ -14,11 +14,11 @@ namespace MAINMENU
             int choice = MainMenu.MultipleChoice(true, "1P Game", "2P Game", "Settings", "Quit");
             if (choice == 0)
             {
-                RenderGame();
+                RenderGame(false);
             }
             else if (choice == 1)
             {
-                RenderGame();
+                RenderGame(true);
             }
             else if (choice == 2)
             {
@@ -31,9 +31,9 @@ namespace MAINMENU
             }
         }
 
-        private static void RenderGame()
+        private static void RenderGame(bool hotseat)
         {
-            TicTacToe game = new TicTacToe();
+            TicTacToe game = new TicTacToe(hotseat);
         }
         public static int MultipleChoice(bool canCancel, params string[] options)
         {

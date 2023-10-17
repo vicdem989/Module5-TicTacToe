@@ -4,9 +4,7 @@
     using MAINMENU;
     using SETTINGS;
     using LANGUAGE;
-    using System.Reflection.Metadata.Ecma335;
-    using System.Diagnostics.Contracts;
-    using System.Numerics;
+    using System.Threading.Tasks.Dataflow;
 
     class TicTacToe
     {
@@ -24,6 +22,8 @@
 
         private static string player1Mark = "X";
         private static string player2Mark = "O";
+        private static string player1Name = "Player1";
+        private static string player2Name = "Player2";
 
         private static int row = 0;
         private static int col = 0;
@@ -36,11 +36,14 @@
 
 
 
-        public TicTacToe()
+        public TicTacToe(bool hotSeat)
         {
-
+            Console.Clear();
+            if(hotSeat) 
+                SetPlayerNames();
             while (isPlaying)
             {
+
                 System.Console.Clear();
                 DrawBoard(board);
                 DisplayCurrentPlayer();
@@ -61,19 +64,29 @@
             //MainMenu.CreateMainMenu();
         }
 
-        private static int DisplayCorrectPlayer()
+        private static void SetPlayerNames()
+        {
+            Console.Write("Input player1's name (X): ");
+            player1Name = Console.ReadLine() ?? String.Empty;
+
+            Console.Write("Input player2's name (O): ");
+            player2Name = Console.ReadLine() ?? String.Empty;
+        }
+
+        private static string DisplayCorrectPlayer()
         {
             int currentPlayerOutput = currentPlayer;
             if (currentPlayerOutput < 0)
             {
-                currentPlayerOutput = 2;
-                return 2;
+                return player2Name;
             }
-            return 1;
+            return player1Name;
         }
 
-        private static string DisplayCorrectMark() {
-            if(currentPlayer == 1) {
+        private static string DisplayCorrectMark()
+        {
+            if (currentPlayer == 1)
+            {
                 return "X";
             }
             return "O";
@@ -147,12 +160,16 @@
                 return;
 
             DrawBoard(board);
-            int currentPlayerOutput = currentPlayer;
-            if (currentPlayerOutput < 0)
+            string currentPlayerOutput = currentPlayer.ToString();
+            if (currentPlayerOutput == "-1")
             {
-                currentPlayerOutput = 2;
+                currentPlayerOutput = player2Name;
             }
-            System.Console.WriteLine("Player " + currentPlayerOutput + " wins!");
+            else
+            {
+                currentPlayerOutput = player1Name;
+            }
+            System.Console.WriteLine(currentPlayerOutput + " wins!");
             isPlaying = false;
 
         }
