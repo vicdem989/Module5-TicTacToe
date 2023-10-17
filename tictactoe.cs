@@ -5,13 +5,15 @@
     using SETTINGS;
     using LANGUAGE;
     using System.Reflection.Metadata.Ecma335;
+    using System.Diagnostics.Contracts;
+    using System.Numerics;
 
     class TicTacToe
     {
         private const int EMPTY = 0;
         private const int PLAYER1 = 1;
         private const int PLAYER2 = -1;
-        private string[,] board = {
+        private static string[,] board = {
             { string.Empty, string.Empty, string.Empty },
             { string.Empty, string.Empty, string.Empty },
             { string.Empty, string.Empty, string.Empty }
@@ -23,6 +25,16 @@
         private static string player1Mark = "X";
         private static string player2Mark = "O";
 
+        private static int row = 0;
+        private static int col = 0;
+
+        private static bool validRow = false;
+        private static bool validCol = false;
+
+        private static string inputRow = string.Empty;
+        private static string inputCol = string.Empty;
+
+
 
         public TicTacToe()
         {
@@ -32,66 +44,67 @@
                 //System.Console.Clear();
                 DrawBoard(board);
                 System.Console.WriteLine("Player " + currentPlayer + "'s turn");
-                string input = System.Console.ReadLine() ?? string.Empty;
-                //Check if input is already placed or not'
-
-                int row = int.Parse(input.Split(' ')[0]);
-                int col = int.Parse(input.Split(' ')[1]);
-
-
-
-                int boardLength = board.Length / 3 - 1;
-                if (row > boardLength && row < 0 && col > boardLength && col < 0)
-                {
-                    Console.WriteLine("HSDA");
-                    return;
-                }
+                string inputText = System.Console.ReadLine() ?? string.Empty;
+                inputRow = inputText.Split(' ')[0];
+                inputCol = inputText.Split(' ')[1];
+                CheckInput(inputText);
+                Console.WriteLine("DKSADJKLASDKLAS");
+                /*
+                                
+                                
+                                {
+                                    Console.WriteLine("HSDA");
+                                    return;
+                                }*/
                 Console.Clear();
-                while (!CheckInput(input, row, col))
-                {
-                    input = System.Console.ReadLine() ?? string.Empty;
-                    //Check if input is already placed or not
-                    row = int.Parse(input.Split(' ')[0]);
-                    col = int.Parse(input.Split(' ')[1]);
-                }
+                CheckMarkPlacement(board, inputText);
                 PlaceMarks(row, col);
 
                 CheckGameState();
 
             }
-            Console.WriteLine(Language.currentLanguage);
-            MainMenu.CreateMainMenu();
+            //Console.WriteLine(Language.currentLanguage);
+            //MainMenu.CreateMainMenu();
         }
 
-        private bool CheckInput(string input, int row, int col)
+        private static void CheckInput(string inputText)
         {
+            inputRow = inputText.Split(' ')[0];
+            inputCol = inputText.Split(' ')[1];
 
-            bool validRow = false;
-            validRow = int.TryParse(input.Split(' ')[0], out row);
 
-            bool validCol = false;
-            validCol = int.TryParse(input.Split(' ')[1], out col);
-
-            while (!validCol && !validRow)
+            validRow = int.TryParse(inputRow, out row);
+            validCol = int.TryParse(inputCol, out col);
+            int boardLength = board.Length / 3 - 1;
+            Console.WriteLine(validRow);
+            Console.WriteLine(validCol);
+            while (!validCol || !validRow || row > boardLength || row < 0 || col > boardLength || col < 0)
             {
-                input = System.Console.ReadLine() ?? string.Empty;
-                //Check if input is already placed or not'
-
-                row = int.Parse(input.Split(' ')[0]);
-                col = int.Parse(input.Split(' ')[1]);
-                Console.WriteLine("Not good input");
-                return false;
-
+                Console.WriteLine("Invalid inputs, input new:");
+                NewInputs(inputText, inputRow, inputCol);
             }
-            if (board[row, col] == string.Empty)
+        }
+
+        private static void NewInputs(string inputText, string inputRow, string inputCol)
+        {
+            inputText = System.Console.ReadLine() ?? string.Empty;
+            if (inputText == "")
+                NewInputs(inputText, inputRow, inputCol);
+            inputRow = inputText.Split(' ')[0];
+            inputCol = inputText.Split(' ')[1];
+            CheckInput(inputText);
+        }
+
+        private static void CheckMarkPlacement(string[,] board, string inputText)
+        {
+            while (board[row, col] != string.Empty)
             {
-                Console.WriteLine("Input: " + row + " " + col);
-                return true;
+                Console.WriteLine("Spot taken, input new inputs");
+                DrawBoard(board);
+                Console.WriteLine("");
+                NewInputs(inputText, inputRow, inputCol);
             }
-
-
-            return false;
-
+            Console.WriteLine("Input: " + row + " " + col);
         }
 
         private void PlaceMarks(int row, int col)
@@ -173,7 +186,7 @@
         }
 
 
-        private void DrawBoard(string[,] board)
+        private static void DrawBoard(string[,] board)
         {
             Console.Write("    1 ");
             Console.Write("   2 ");
