@@ -14,9 +14,9 @@
         private const int PLAYER1 = 1;
         private const int PLAYER2 = -1;
         private static string[,] board = {
-            { string.Empty, string.Empty, string.Empty },
-            { string.Empty, string.Empty, string.Empty },
-            { string.Empty, string.Empty, string.Empty }
+        { " ", " ", " " },
+        { " ", " ", " " },
+        { " ", " ", " " }
         };
 
         private static int currentPlayer = PLAYER1;
@@ -41,22 +41,16 @@
 
             while (isPlaying)
             {
-                //System.Console.Clear();
+                System.Console.Clear();
                 DrawBoard(board);
-                System.Console.WriteLine("Player " + currentPlayer + "'s turn");
+                DisplayCurrentPlayer();
+
                 string inputText = System.Console.ReadLine() ?? string.Empty;
                 inputRow = inputText.Split(' ')[0];
                 inputCol = inputText.Split(' ')[1];
                 CheckInput(inputText);
-                Console.WriteLine("DKSADJKLASDKLAS");
-                /*
-                                
-                                
-                                {
-                                    Console.WriteLine("HSDA");
-                                    return;
-                                }*/
                 Console.Clear();
+
                 CheckMarkPlacement(board, inputText);
                 PlaceMarks(row, col);
 
@@ -65,6 +59,31 @@
             }
             //Console.WriteLine(Language.currentLanguage);
             //MainMenu.CreateMainMenu();
+        }
+
+        private static int DisplayCorrectPlayer()
+        {
+            int currentPlayerOutput = currentPlayer;
+            if (currentPlayerOutput < 0)
+            {
+                currentPlayerOutput = 2;
+                return 2;
+            }
+            return 1;
+        }
+
+        private static string DisplayCorrectMark() {
+            if(currentPlayer == 1) {
+                return "X";
+            }
+            return "O";
+        }
+
+        private static void DisplayCurrentPlayer()
+        {
+            System.Console.WriteLine("\nPlayer " + DisplayCorrectPlayer() + "'s " + "(" + DisplayCorrectMark() + ") " + "turn");
+            System.Console.Write("Enter row then column: ");
+
         }
 
         private static void CheckInput(string inputText)
@@ -97,8 +116,9 @@
 
         private static void CheckMarkPlacement(string[,] board, string inputText)
         {
-            while (board[row, col] != string.Empty)
+            while (board[row, col] != " ")
             {
+                Console.Clear();
                 Console.WriteLine("Spot taken, input new inputs");
                 DrawBoard(board);
                 Console.WriteLine("");
@@ -123,14 +143,18 @@
         {
             int gameState = CheckForWin(board);
             currentPlayer = currentPlayer * -1;
+            if (gameState == 0)
+                return;
 
-            if (gameState != 0)
+            DrawBoard(board);
+            int currentPlayerOutput = currentPlayer;
+            if (currentPlayerOutput < 0)
             {
-
-                DrawBoard(board);
-                System.Console.WriteLine("Player " + currentPlayer + " wins!");
-                isPlaying = false;
+                currentPlayerOutput = 2;
             }
+            System.Console.WriteLine("Player " + currentPlayerOutput + " wins!");
+            isPlaying = false;
+
         }
 
         private int CheckForWin(string[,] board)
@@ -188,15 +212,17 @@
 
         private static void DrawBoard(string[,] board)
         {
-            Console.Write("    1 ");
+            Console.Write("     1");
             Console.Write("   2 ");
             Console.Write("  3 ");
             Console.WriteLine();
             for (int i = 0; i < board.GetLength(0); i++)
             {
-                string row = "|  ";
+                string row = " | ";
+
                 for (int j = 0; j < board.GetLength(1); j++)
                 {
+
                     row += $"{board[i, j]} | ";
                 }
                 Console.Write(i + 1 + " ");
