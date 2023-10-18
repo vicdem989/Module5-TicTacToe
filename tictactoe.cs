@@ -5,6 +5,9 @@
     using SETTINGS;
     using LANGUAGE;
     using System.Threading.Tasks.Dataflow;
+    using System.Security.Cryptography;
+    using Microsoft.VisualBasic;
+    using System.Collections;
 
     class TicTacToe
     {
@@ -22,7 +25,7 @@
 
         private static string player1Mark = "X";
         private static string player2Mark = "O";
-        private static string player1Name = "Player1";
+        private static string player1Name = "Your";
         private static string player2Name = "Player2";
 
         private static int row = 0;
@@ -34,12 +37,16 @@
         private static string inputRow = string.Empty;
         private static string inputCol = string.Empty;
 
+        private static int boardLengthInput = board.Length / 3 - 1;
+
+        private static bool canCancel = true;
+
 
 
         public TicTacToe(bool hotSeat)
         {
             Console.Clear();
-            if(hotSeat) 
+            if (hotSeat)
                 SetPlayerNames();
             while (isPlaying)
             {
@@ -47,7 +54,6 @@
                 System.Console.Clear();
                 DrawBoard(board);
                 DisplayCurrentPlayer();
-
                 string inputText = System.Console.ReadLine() ?? string.Empty;
                 inputRow = inputText.Split(' ')[0];
                 inputCol = inputText.Split(' ')[1];
@@ -55,14 +61,21 @@
                 Console.Clear();
 
                 CheckMarkPlacement(board, inputText);
-                PlaceMarks(row, col);
 
+                PlaceMarks(row, col);
+                DrawBoard(board);
+                if (!Game.hotSeat)
+                    PlaceAIMark();
+                DrawBoard(board);
                 CheckGameState();
+                if (!Game.hotSeat)
+                    PlaceAIMark();
 
             }
             //Console.WriteLine(Language.currentLanguage);
             //MainMenu.CreateMainMenu();
         }
+
 
         private static void SetPlayerNames()
         {
@@ -76,7 +89,7 @@
         private static string DisplayCorrectPlayer()
         {
             int currentPlayerOutput = currentPlayer;
-            if (currentPlayerOutput < 0)
+            if (currentPlayer < 0 && Game.hotSeat)
             {
                 return player2Name;
             }
@@ -94,9 +107,14 @@
 
         private static void DisplayCurrentPlayer()
         {
-            System.Console.WriteLine("\nPlayer " + DisplayCorrectPlayer() + "'s " + "(" + DisplayCorrectMark() + ") " + "turn");
+            if (!Game.hotSeat)
+            {
+                System.Console.WriteLine("\n" + DisplayCorrectPlayer() + " (" + DisplayCorrectMark() + ") " + "turn");
+                System.Console.Write("Enter row then column: ");
+                return;
+            }
+            System.Console.WriteLine("\n" + DisplayCorrectPlayer() + "'s " + "(" + DisplayCorrectMark() + ") " + "turn");
             System.Console.Write("Enter row then column: ");
-
         }
 
         private static void CheckInput(string inputText)
@@ -107,10 +125,10 @@
 
             validRow = int.TryParse(inputRow, out row);
             validCol = int.TryParse(inputCol, out col);
-            int boardLength = board.Length / 3 - 1;
+
             Console.WriteLine(validRow);
             Console.WriteLine(validCol);
-            while (!validCol || !validRow || row > boardLength || row < 0 || col > boardLength || col < 0)
+            while (!validCol || !validRow || row > boardLengthInput || row < 0 || col > boardLengthInput || col < 0)
             {
                 Console.WriteLine("Invalid inputs, input new:");
                 NewInputs(inputText, inputRow, inputCol);
@@ -142,6 +160,7 @@
 
         private void PlaceMarks(int row, int col)
         {
+
             if (currentPlayer == 1)
             {
                 board[row, col] = player1Mark;
@@ -152,6 +171,31 @@
             }
 
         }
+
+        private static void PlaceAIMark()
+        {
+            if (currentPlayer != 1 && !Game.hotSeat)
+            {
+                Random random = new Random();
+                int rowAI = random.Next(boardLengthInput);
+                int colAI = random.Next(boardLengthInput);
+                board[rowAI, colAI] = player2Mark;
+                //Checking if AI places on empty or marked spot doesn't work
+                /*
+                while (board[rowAI, colAI] == " ")
+                {
+                    rowAI = random.Next(boardLengthInput);
+                    colAI = random.Next(boardLengthInput);
+                    board[rowAI, colAI] = player2Mark;
+                    DrawBoard(board);
+                }*/
+
+
+                Console.WriteLine("Input: " + row + " " + col);
+                currentPlayer = 1;
+            }
+        }
+
         private void CheckGameState()
         {
             int gameState = CheckForWin(board);
@@ -161,7 +205,7 @@
 
             DrawBoard(board);
             string currentPlayerOutput = currentPlayer.ToString();
-            if (currentPlayerOutput == "-1")
+            if (gameState == -1)
             {
                 currentPlayerOutput = player2Name;
             }
@@ -180,15 +224,43 @@
             int winSum = board.GetLength(0);
 
             // rows
-            for (int i = 0; i < board.GetLength(0); i++)
+            /*for (int i = 0; i < boardLengthInput; i++)
             {
                 int sum = 0;
-                for (int j = 0; j < board.GetLength(1); j++)
+                for (int j = 0; j < boardLengthInput; j++)
+                {
+                    if (board[i, j] == player1Mark)
+                    {
+                        sum++;
+                    }
+                    else if (board[i, j] == player2Mark)
+                    {
+                        sum--;
+                    }
+                    else
+                    {
+                        sum += 0;
+                    }
+                }
+                if (sum == (sum * PLAYER1) || sum == (sum * PLAYER2))
+                {
+                    return sum / winSum;
+                }
+            }*/
+
+            for (int i = 0; i < board.GetLength(1); i++)
+            {
+                int sum = 0;
+                for (int j = 0; j < board.GetLength(0); j++)
                 {
                     //sum += Int32.Parse(board[i, j]);
                     if (board[i, j] == player1Mark)
                     {
-                        sum += 1;
+                        sum++;
+                    }
+                    else if (board[i, j] == player2Mark)
+                    {
+                        sum--;
                     }
                     else
                     {
@@ -203,14 +275,18 @@
             }
 
             // columns
-            for (int i = 0; i < board.GetLength(1); i++)
+            for (int i = 0; i < board.GetLength(0); i++)
             {
                 int sum = 0;
-                for (int j = 0; j < board.GetLength(0); j++)
+                for (int j = 0; j < board.GetLength(1); j++)
                 {
                     if (board[i, j] == player1Mark)
                     {
-                        sum += 1;
+                        sum++;
+                    }
+                    else if (board[i, j] == player2Mark)
+                    {
+                        sum--;
                     }
                     else
                     {
@@ -239,7 +315,6 @@
 
                 for (int j = 0; j < board.GetLength(1); j++)
                 {
-
                     row += $"{board[i, j]} | ";
                 }
                 Console.Write(i + 1 + " ");

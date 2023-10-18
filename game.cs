@@ -5,10 +5,10 @@ namespace TICTACTOE
     using SETTINGS;
     class Game
     {
-        public static bool hotSeat = false;
+        public static bool hotSeat = true;
         public static void Main(String[] args)
         {
-            //TicTacToe game = new TicTacToe();
+            TicTacToe game = new TicTacToe(hotSeat);
             //MainMenu.CreateMainMenu();
         }
 
