@@ -17,7 +17,7 @@ namespace Utils
     {
         private int indentLevel = 0;
 
-        Output() { }
+        public Output() { }
 
         public Output WriteLine(string text)
         {
@@ -43,14 +43,17 @@ namespace Utils
             return this;
         }
 
-        public Output AddColor(string text, System.ConsoleColor modifier, bool reset = true, bool oneLine = true) {
-            Console.ForegroundColor = modifier;
-            if(oneLine){
-                WriteLine(text);
-            } else {
+        public Output AddColor(string text, string modifier, bool reset = true, bool oneLine = true)
+        {
+            if (oneLine)
+            {
+                WriteLine(modifier + $"{text}");
+            }
+            else
+            {
                 Write(text);
             }
-            if(reset) 
+            if (reset)
                 Reset();
             return this;
         }

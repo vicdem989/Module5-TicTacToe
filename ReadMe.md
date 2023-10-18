@@ -20,13 +20,13 @@ You must work from the supplied code at `https://github.com/CodeCraftCurriculum-
 We recomend that before getting your hands dirty with code, develop a pseudo-code and/or a flowchart.
 At times it is advisable to make flowcharts for smaler segments of code.
 
-1. **Implement a Start Screen**
+1. **Implement a Start Screen** DONE
 
    - Create a basic start screen with an option to start the game, Navigating the menu should be done using arrow up / down and Enter to select.
    - Menu items : 1P Game, 2P Game, Settings, Quit (all menu )
    - When ever a game is complete, the player should return to this screen.
 
-2. **Better UI**
+2. **Better UI** DONE
 
    - Change the rendeing of the board so that it is similar to image 1. I.e. we do not want to see -1 and 1 values but X´s and O´s
      ![image 1: displaying symboles not values ](/tt1.png)
@@ -45,11 +45,11 @@ At times it is advisable to make flowcharts for smaler segments of code.
 
    - Enhance your game's user interface by using ANSI escape codes to add color.
 
-6. **Winner Winner Chicken Dinner**
+6. **Winner Winner Chicken Dinner** DONE
 
    - The game is currently unable to find the winner in all cases. Change the code so that it can do so (do not change the strategy for doing so).
 
-7. **More input**
+7. **More input** 
 
    - The player should at any time be able to type q + <Enter> to quit.
    - The Player should at any time be able to type r + <Enter> to restart the current game
@@ -61,11 +61,11 @@ At times it is advisable to make flowcharts for smaler segments of code.
    - Make it so that it is possible to play 2 player hotseat
    - Change the code so that the players give their name before starting (so no Player 1/2 turn, use theri names )
 
-9. **Bablefish**
+9. **Bablefish** INTEGRATION DONE, NEED TRANSLATION
 
    - Under settings in the menu, make it possible to change the games language. You should suport at minimum two languages.
 
-10. **Bad inpu**
+10. **Bad inpu** DONE
 
 - Do not let players put tokens on spaces that are filed.
 

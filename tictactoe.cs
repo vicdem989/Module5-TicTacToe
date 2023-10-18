@@ -8,6 +8,7 @@
     using System.Security.Cryptography;
     using Microsoft.VisualBasic;
     using System.Collections;
+    using System.Numerics;
 
     class TicTacToe
     {
@@ -27,6 +28,8 @@
         private static string player2Mark = "O";
         private static string player1Name = "Your";
         private static string player2Name = "Player2";
+        private static string player1Color = ANSI_COLORS.MAGENTA;
+        private static string player2Color = ANSI_COLORS.CYAN;
 
         private static int row = 0;
         private static int col = 0;
@@ -41,13 +44,15 @@
 
         private static bool canCancel = true;
 
+        public static Output output = new Output();
+
 
 
         public TicTacToe(bool hotSeat)
         {
             //Console.Clear();
             if (hotSeat)
-                SetPlayerNames();
+                SetPlayerAttributes();
             while (isPlaying)
             {
 
@@ -77,13 +82,20 @@
         }
 
 
-        private static void SetPlayerNames()
+        private static void SetPlayerAttributes()
         {
-            Console.Write("Input player1's name (X): ");
+            output.Write("Input player1's name (X): ");
             player1Name = Console.ReadLine() ?? String.Empty;
 
-            Console.Write("Input player2's name (O): ");
+            /*output.Write("Input player1's color (X): ");
+            player1Color = Console.ReadLine() ?? String.Empty;*/
+
+
+            output.Write("Input player2's name (O): ");
             player2Name = Console.ReadLine() ?? String.Empty;
+
+           /* output.Write("Input player2's color (X): ");
+            player2Color = Console.ReadLine() ?? String.Empty;*/
         }
 
         private static string DisplayCorrectPlayer()
@@ -203,15 +215,18 @@
 
             DrawBoard(board);
             string currentPlayerOutput = currentPlayer.ToString();
+            string outputColor = player1Color;
             if (gameState == -1)
             {
                 currentPlayerOutput = player2Name;
+                outputColor = player2Color;
             }
             else
             {
                 currentPlayerOutput = player1Name;
+                outputColor = player1Color;
             }
-            System.Console.WriteLine(currentPlayerOutput + " wins!");
+            output.AddColor(currentPlayerOutput + " wins!", outputColor);
             isPlaying = false;
 
         }
@@ -227,7 +242,6 @@
                 int sum = 0;
                 for (int j = 0; j < board.GetLength(0); j++)
                 {
-                    //sum += Int32.Parse(board[i, j]);
                     if (board[i, j] == player1Mark)
                     {
                         sum++;
@@ -272,6 +286,23 @@
                 {
                     return sum / winSum;
                 }
+            }
+
+            if (board[0, 0] == player1Mark && board[1, 1] == player1Mark && board[2, 2] == player1Mark)
+            {
+                return 1;
+            }
+            else if (board[0, 0] == player2Mark && board[1, 1] == player2Mark && board[2, 2] == player2Mark)
+            {
+                return -1;
+            }
+            else if (board[0, 2] == player1Mark && board[1, 1] == player1Mark && board[2, 0] == player1Mark)
+            {
+                return 1;
+            }
+            else if (board[0, 2] == player2Mark && board[1, 1] == player2Mark && board[2, 0] == player2Mark)
+            {
+                return -1;
             }
 
             return 0;
