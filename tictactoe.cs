@@ -45,20 +45,20 @@
 
         public TicTacToe(bool hotSeat)
         {
-            Console.Clear();
+            //Console.Clear();
             if (hotSeat)
                 SetPlayerNames();
             while (isPlaying)
             {
 
-                System.Console.Clear();
+                //System.Console.Clear();
                 DrawBoard(board);
                 DisplayCurrentPlayer();
                 string inputText = System.Console.ReadLine() ?? string.Empty;
                 inputRow = inputText.Split(' ')[0];
                 inputCol = inputText.Split(' ')[1];
                 CheckInput(inputText);
-                Console.Clear();
+                //Console.Clear();
 
                 CheckMarkPlacement(board, inputText);
 
@@ -126,8 +126,6 @@
             validRow = int.TryParse(inputRow, out row);
             validCol = int.TryParse(inputCol, out col);
 
-            Console.WriteLine(validRow);
-            Console.WriteLine(validCol);
             while (!validCol || !validRow || row > boardLengthInput || row < 0 || col > boardLengthInput || col < 0)
             {
                 Console.WriteLine("Invalid inputs, input new:");
@@ -224,30 +222,6 @@
             int winSum = board.GetLength(0);
 
             // rows
-            /*for (int i = 0; i < boardLengthInput; i++)
-            {
-                int sum = 0;
-                for (int j = 0; j < boardLengthInput; j++)
-                {
-                    if (board[i, j] == player1Mark)
-                    {
-                        sum++;
-                    }
-                    else if (board[i, j] == player2Mark)
-                    {
-                        sum--;
-                    }
-                    else
-                    {
-                        sum += 0;
-                    }
-                }
-                if (sum == (sum * PLAYER1) || sum == (sum * PLAYER2))
-                {
-                    return sum / winSum;
-                }
-            }*/
-
             for (int i = 0; i < board.GetLength(1); i++)
             {
                 int sum = 0;
@@ -280,11 +254,12 @@
                 int sum = 0;
                 for (int j = 0; j < board.GetLength(1); j++)
                 {
-                    if (board[i, j] == player1Mark)
+
+                    if (board[j, i] == player1Mark)
                     {
                         sum++;
                     }
-                    else if (board[i, j] == player2Mark)
+                    else if (board[j, i] == player2Mark)
                     {
                         sum--;
                     }
