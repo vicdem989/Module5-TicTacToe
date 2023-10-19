@@ -10,6 +10,7 @@
     using System.Collections;
     using System.Numerics;
     using System.Reflection.Metadata;
+    using System.Security.Cryptography.X509Certificates;
 
     class TicTacToe
     {
@@ -337,8 +338,6 @@
 
         private static void DrawBoard(string[,] board)
         {
-            int colors = 0;
-            string currentColor = ANSI_COLORS.WHITE;
             if (!CheckBoardSize(board))
             {
                 Console.WriteLine("It's a tie!");
@@ -355,33 +354,20 @@
 
                 for (int j = 0; j < board.GetLength(1); j++)
                 {
-                    row += $"{board[i, j]} | ";
-                    if(board[i, j] == player1Mark) {
-                        currentColor = player1Color;
-                        colors = 1;
-                    } else if (board[i, j] == player2Mark) {
-                        currentColor = player2Color;
-                        colors = -1;
+                    if(board[i, j] == "X") {
+                        row += $"{board[i, j]} | ";
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine(row);
+                        Console.ResetColor();
+                    } else {
+                        row += $"{board[i, j]} | ";
                     }
                 }
-                Console.Write(i + 1 + " ");
-                if (colors == 1)
-                {
-                    currentColor = player1Color;
-                    output.AddColor(row, currentColor);
-                }
-                else if (colors == -1)
-                {
-                    currentColor = player2Color;
-                    output.AddColor(row, currentColor);
-                } else {
-                    output.AddColor(row, currentColor);
-                }
-                //output.WriteLine(row);
+                output.Write(i + 1 + " ");
+                output.WriteLine(row);
+                Console.ResetColor();
+            
             }
-
         }
-
     }
-
 }
