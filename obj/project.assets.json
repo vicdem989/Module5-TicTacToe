@@ -8,24 +8,31 @@
     "net7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\esport\\.nuget\\packages\\": {}
+    "C:\\Users\\vicde\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\esport\\Documents\\GitHub\\Module5-TicTacToe\\tictactoe.csproj",
+      "projectUniqueName": "D:\\Godot\\GodotSharp\\RogueLikeGame GameJam\\Module5-TicTacToe\\tictactoe.csproj",
       "projectName": "tictactoe",
-      "projectPath": "C:\\Users\\esport\\Documents\\GitHub\\Module5-TicTacToe\\tictactoe.csproj",
-      "packagesPath": "C:\\Users\\esport\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\esport\\Documents\\GitHub\\Module5-TicTacToe\\obj\\",
+      "projectPath": "D:\\Godot\\GodotSharp\\RogueLikeGame GameJam\\Module5-TicTacToe\\tictactoe.csproj",
+      "packagesPath": "C:\\Users\\vicde\\.nuget\\packages\\",
+      "outputPath": "D:\\Godot\\GodotSharp\\RogueLikeGame GameJam\\Module5-TicTacToe\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\esport\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\vicde\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -59,7 +66,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }

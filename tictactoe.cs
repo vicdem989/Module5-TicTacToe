@@ -9,6 +9,7 @@
     using Microsoft.VisualBasic;
     using System.Collections;
     using System.Numerics;
+    using System.Reflection.Metadata;
 
     class TicTacToe
     {
@@ -26,8 +27,8 @@
 
         private static string player1Mark = "X";
         private static string player2Mark = "O";
-        private static string player1Name = "Your";
-        private static string player2Name = "Player2";
+        private static string player1Name = "You";
+        private static string player2Name = "AI";
         private static string player1Color = ANSI_COLORS.MAGENTA;
         private static string player2Color = ANSI_COLORS.CYAN;
 
@@ -94,8 +95,8 @@
             output.Write("Input player2's name (O): ");
             player2Name = Console.ReadLine() ?? String.Empty;
 
-           /* output.Write("Input player2's color (X): ");
-            player2Color = Console.ReadLine() ?? String.Empty;*/
+            /* output.Write("Input player2's color (X): ");
+             player2Color = Console.ReadLine() ?? String.Empty;*/
         }
 
         private static string DisplayCorrectPlayer()
@@ -187,17 +188,21 @@
             if (currentPlayer != 1 && !Game.hotSeat)
             {
                 Random random = new Random();
-                int rowAI = random.Next(boardLengthInput);
-                int colAI = random.Next(boardLengthInput);
+                int rowAI = random.Next(board.GetLength(0));
+                int colAI = random.Next(board.GetLength(0));
                 board[rowAI, colAI] = player2Mark;
+                DrawBoard(board);
                 //Checking if AI places on empty or marked spot doesn't work
-                /*
-                while (board[rowAI, colAI] == " ")
+
+                if (board[rowAI, colAI] == player1Mark)
                 {
-                    rowAI = random.Next(boardLengthInput);
-                    colAI = random.Next(boardLengthInput);
-                    board[rowAI, colAI] = player2Mark;
-                    DrawBoard(board);
+                    output.AddColor("The AI took your mark!", ANSI_COLORS.RED);
+                } /*else if (board[rowAI, colAI] == player2Mark) {
+                    output.AddColor("The AI missplaced, your turn", ANSI_COLORS.GREEN);
+                }*/
+                /*else
+                {
+                    PlaceAIMark();
                 }*/
 
 
@@ -288,6 +293,9 @@
                 }
             }
 
+            if (board[1, 1] == " ")
+                return 0;
+
             if (board[0, 0] == player1Mark && board[1, 1] == player1Mark && board[2, 2] == player1Mark)
             {
                 return 1;
@@ -308,9 +316,35 @@
             return 0;
         }
 
+        private static bool CheckBoardSize(string[,] board)
+        {
+            int count = 0;
+            for (int i = 0; i < board.GetLength(0); i++)
+            {
+                for (int j = 0; j < board.GetLength(1); j++)
+                {
+                    if (board[i, j] != " ")
+                    {
+                        count++;
+                    }
+                }
+            }
+            if (count == board.Length)
+                return false;
+            return true;
+        }
+
 
         private static void DrawBoard(string[,] board)
         {
+            int colors = 0;
+            string currentColor = ANSI_COLORS.WHITE;
+            if (!CheckBoardSize(board))
+            {
+                Console.WriteLine("It's a tie!");
+                Thread.Sleep(200);
+                MainMenu.CreateMainMenu();
+            }
             Console.Write("     1");
             Console.Write("   2 ");
             Console.Write("  3 ");
@@ -322,9 +356,28 @@
                 for (int j = 0; j < board.GetLength(1); j++)
                 {
                     row += $"{board[i, j]} | ";
+                    if(board[i, j] == player1Mark) {
+                        currentColor = player1Color;
+                        colors = 1;
+                    } else if (board[i, j] == player2Mark) {
+                        currentColor = player2Color;
+                        colors = -1;
+                    }
                 }
                 Console.Write(i + 1 + " ");
-                System.Console.WriteLine(row);
+                if (colors == 1)
+                {
+                    currentColor = player1Color;
+                    output.AddColor(row, currentColor);
+                }
+                else if (colors == -1)
+                {
+                    currentColor = player2Color;
+                    output.AddColor(row, currentColor);
+                } else {
+                    output.AddColor(row, currentColor);
+                }
+                //output.WriteLine(row);
             }
 
         }
