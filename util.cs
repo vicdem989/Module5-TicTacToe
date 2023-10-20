@@ -16,24 +16,41 @@ namespace Utils
     public class Output
     {
         private int indentLevel = 0;
+        private int consoleLength = Console.WindowWidth / 2;
 
         public Output() { }
 
+        private void ResetValues()
+        {
+            indentLevel = 0;
+            consoleLength = Console.WindowWidth / 2;
+        }
+
         public Output WriteLine(string text)
         {
-            System.Console.WriteLine(text);
+            ResetValues();
+            indentLevel = text.Length / 2;
+            consoleLength -= indentLevel;
+
+            for (int i = 0; i < consoleLength; i++)
+            {
+                System.Console.Write(" ");
+            }
+            System.Console.Write(text + "\n");
             return this;
         }
 
         public Output Write(string text)
         {
-            System.Console.Write(text);
-            return this;
-        }
+            ResetValues();
+            indentLevel = text.Length / 2;
+            consoleLength -= indentLevel;
 
-        public Output Color(string color)
-        {
-            System.Console.Write(color);
+            for (int i = 0; i < consoleLength; i++)
+            {
+                System.Console.Write(" ");
+            }
+            System.Console.Write(text);
             return this;
         }
 
@@ -51,10 +68,16 @@ namespace Utils
             }
             else
             {
-                Write(text);
+                Write(modifier + text);
             }
             if (reset)
                 Reset();
+            return this;
+        }
+
+        public Output MoveCursor()
+        {
+            Console.SetCursorPosition(Console.WindowWidth / 2, 1);
             return this;
         }
 

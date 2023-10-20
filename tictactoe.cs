@@ -4,6 +4,7 @@
     using MAINMENU;
     using SETTINGS;
     using LANGUAGE;
+    using System.Windows.Input;
     using System.Threading.Tasks.Dataflow;
     using System.Security.Cryptography;
     using Microsoft.VisualBasic;
@@ -48,24 +49,49 @@
 
         public static Output output = new Output();
 
+        private static bool gameOver = false;
 
 
         public TicTacToe(bool hotSeat)
         {
-            //Console.Clear();
-            if (hotSeat)
-                SetPlayerAttributes();
-            while (isPlaying)
+            output.WriteLine("Hei" + " = " + Convert.ToChar(0xB0));
+            do
             {
+                Console.Clear();
+                if (hotSeat)
+                    SetPlayerAttributes();
+                Run();
+                output.WriteLine("Do you want to restart the game? y/n");
+                if (Console.ReadLine() == "y")
+                    Run();
 
-                //System.Console.Clear();
+                //Console.WriteLine(Language.currentLanguage);
+                //MainMenu.CreateMainMenu();
+            } while (Console.ReadKey().Key != ConsoleKey.Q || Console.ReadKey().Key != ConsoleKey.Enter);
+            output.AddColor("Game Over!", ANSI_COLORS.BLUE);
+        }
+
+        private static void Run()
+        {
+            output.WriteLine("Welcome to TicTacToe!");
+            for (int i = 0; i < board.GetLength(0); i++)
+            {
+                for (int j = 0; j < board.GetLength(0); j++)
+                {
+                    board[i, j] = " ";
+                }
+            }
+            do
+            {
+                System.Console.Clear();
                 DrawBoard(board);
                 DisplayCurrentPlayer();
                 string inputText = System.Console.ReadLine() ?? string.Empty;
+                output.MoveCursor();
                 inputRow = inputText.Split(' ')[0];
                 inputCol = inputText.Split(' ')[1];
                 CheckInput(inputText);
-                //Console.Clear();
+                Console.Clear();
 
                 CheckMarkPlacement(board, inputText);
 
@@ -77,27 +103,16 @@
                 CheckGameState();
                 if (!Game.hotSeat)
                     PlaceAIMark();
-
-            }
-            //Console.WriteLine(Language.currentLanguage);
-            //MainMenu.CreateMainMenu();
+            } while (Console.ReadKey().Key != ConsoleKey.R || Console.ReadKey().Key != ConsoleKey.Enter);
         }
-
 
         private static void SetPlayerAttributes()
         {
             output.Write("Input player1's name (X): ");
             player1Name = Console.ReadLine() ?? String.Empty;
 
-            /*output.Write("Input player1's color (X): ");
-            player1Color = Console.ReadLine() ?? String.Empty;*/
-
-
             output.Write("Input player2's name (O): ");
             player2Name = Console.ReadLine() ?? String.Empty;
-
-            /* output.Write("Input player2's color (X): ");
-             player2Color = Console.ReadLine() ?? String.Empty;*/
         }
 
         private static string DisplayCorrectPlayer()
@@ -123,16 +138,18 @@
         {
             if (!Game.hotSeat)
             {
-                System.Console.WriteLine("\n" + DisplayCorrectPlayer() + " (" + DisplayCorrectMark() + ") " + "turn");
-                System.Console.Write("Enter row then column: ");
+                output.WriteLine(" ");
+                output.WriteLine(DisplayCorrectPlayer() + " (" + DisplayCorrectMark() + ") " + "turn");
+                output.Write("Enter row then column: ");
                 return;
             }
-            System.Console.WriteLine("\n" + DisplayCorrectPlayer() + "'s " + "(" + DisplayCorrectMark() + ") " + "turn");
-            System.Console.Write("Enter row then column: ");
+            output.WriteLine(DisplayCorrectPlayer() + "'s " + "(" + DisplayCorrectMark() + ") " + "turn");
+            output.Write("Enter row then column: ");
         }
 
         private static void CheckInput(string inputText)
         {
+            Console.Clear();
             inputRow = inputText.Split(' ')[0];
             inputCol = inputText.Split(' ')[1];
 
@@ -142,13 +159,15 @@
 
             while (!validCol || !validRow || row > boardLengthInput || row < 0 || col > boardLengthInput || col < 0)
             {
-                Console.WriteLine("Invalid inputs, input new:");
+                output.WriteLine("Invalid inputs, input new:");
                 NewInputs(inputText, inputRow, inputCol);
             }
         }
 
         private static void NewInputs(string inputText, string inputRow, string inputCol)
         {
+            DrawBoard(board);
+            output.MoveCursor();
             inputText = System.Console.ReadLine() ?? string.Empty;
             if (inputText == "")
                 NewInputs(inputText, inputRow, inputCol);
@@ -162,7 +181,7 @@
             while (board[row, col] != " ")
             {
                 Console.Clear();
-                Console.WriteLine("Spot taken, input new inputs");
+                output.WriteLine("Spot taken, input new inputs");
                 DrawBoard(board);
                 Console.WriteLine("");
                 NewInputs(inputText, inputRow, inputCol);
@@ -170,7 +189,7 @@
             Console.WriteLine("Input: " + row + " " + col);
         }
 
-        private void PlaceMarks(int row, int col)
+        private static void PlaceMarks(int row, int col)
         {
 
             if (currentPlayer == 1)
@@ -207,12 +226,12 @@
                 }*/
 
 
-                Console.WriteLine("Input: " + row + " " + col);
+                output.WriteLine("Input: " + row + " " + col);
                 currentPlayer = 1;
             }
         }
 
-        private void CheckGameState()
+        private static void CheckGameState()
         {
             int gameState = CheckForWin(board);
             currentPlayer = currentPlayer * -1;
@@ -233,11 +252,11 @@
                 outputColor = player1Color;
             }
             output.AddColor(currentPlayerOutput + " wins!", outputColor);
-            isPlaying = false;
+            gameOver = true;
 
         }
 
-        private int CheckForWin(string[,] board)
+        private static int CheckForWin(string[,] board)
         {
 
             int winSum = board.GetLength(0);
@@ -261,7 +280,7 @@
                         sum += 0;
                     }
                 }
-                Console.WriteLine("SCORE    " + sum);
+                output.WriteLine("SCORE    " + sum);
                 if (sum == (winSum * PLAYER1) || sum == (winSum * PLAYER2))
                 {
                     return sum / winSum;
@@ -340,33 +359,33 @@
         {
             if (!CheckBoardSize(board))
             {
-                Console.WriteLine("It's a tie!");
+                output.WriteLine("It's a tie!");
                 Thread.Sleep(200);
                 MainMenu.CreateMainMenu();
             }
-            Console.Write("     1");
-            Console.Write("   2 ");
-            Console.Write("  3 ");
-            Console.WriteLine();
+
+            output.WriteLine(" ");
             for (int i = 0; i < board.GetLength(0); i++)
             {
                 string row = " | ";
 
                 for (int j = 0; j < board.GetLength(1); j++)
                 {
-                    if(board[i, j] == "X") {
+                    if (board[i, j] == "X")
+                    {
                         row += $"{board[i, j]} | ";
-                        Console.ForegroundColor = ConsoleColor.DarkRed;
-                        Console.WriteLine(row);
-                        Console.ResetColor();
-                    } else {
+                        //Console.ForegroundColor = ConsoleColor.DarkRed;
+                        //Console.WriteLine(row);
+                        //Console.ResetColor();
+                    }
+                    else
+                    {
                         row += $"{board[i, j]} | ";
                     }
                 }
-                output.Write(i + 1 + " ");
-                output.WriteLine(row);
+                output.Write(i + 1 + " " + row + "\n");
                 Console.ResetColor();
-            
+
             }
         }
     }

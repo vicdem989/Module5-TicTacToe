@@ -41,7 +41,7 @@ At times it is advisable to make flowcharts for smaler segments of code.
    - Change the drawing of the board so that it is similar to image 3
      ![image 3: displaying whos turn it is ](/tt3.png)
 
-5. **Add ANSI Escape Codes to Add Color**
+5. **Add ANSI Escape Codes to Add Color** DONE
 
    - Enhance your game's user interface by using ANSI escape codes to add color.
 
@@ -49,12 +49,12 @@ At times it is advisable to make flowcharts for smaler segments of code.
 
    - The game is currently unable to find the winner in all cases. Change the code so that it can do so (do not change the strategy for doing so).
 
-7. **More input** 
+7. **More input** BASICALLY DONE, CAN ONLY PRESS Q + ENTER AFTER R + ENTER IS PRESSED AND NOT RESTART IS TRUE
 
    - The player should at any time be able to type q + <Enter> to quit.
    - The Player should at any time be able to type r + <Enter> to restart the current game
 
-8. **2p Player hotseat**
+8. **2p Player hotseat** 90% DONE
    ME - IMPLEMENT 1 PLAYER 
       YOU PLACE YOUR (PLAYER YOU)
       AI PLACE RANDOM AT AVAILABLE SPOT (AI)
@@ -73,7 +73,7 @@ Challenge Requirements (Higher Grades):
 
 TIP: ANSI CODES ;)
 
-1. **Center stage**
+1. **Center stage** DONE
 
    - Draw the game board in the center of the screen.
    - Center align text.
