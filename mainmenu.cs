@@ -5,6 +5,7 @@ namespace MAINMENU
     using TICTACTOE;
     using SETTINGS;
     using LANGUAGE;
+    using System.Runtime.InteropServices;
 
     public class MainMenu
     {
@@ -33,7 +34,7 @@ namespace MAINMENU
             }
         }
 
-        private static void RenderGame(bool hotseat)
+        public static void RenderGame(bool hotseat)
         {
             TicTacToe game = new TicTacToe(hotseat);
         }

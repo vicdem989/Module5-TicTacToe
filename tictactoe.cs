@@ -4,6 +4,8 @@
     using MAINMENU;
     using SETTINGS;
     using LANGUAGE;
+    using System.Net.NetworkInformation;
+    using System.Runtime.InteropServices;
 
     class TicTacToe
     {
@@ -42,29 +44,37 @@
 
         private static bool hotSeat = false;
 
+        private static string currentPlayerOutput = String.Empty;
+        private static string outputColor = ANSI_COLORS.WHITE;
+
 
 
         public TicTacToe(bool chosenMode)
         {
+            gameOver = false;
             player1Name = Language.appText.Player1DefaultName;
             hotSeat = chosenMode;
-            //do
-            //{
+            do
+            {
                 Console.Clear();
                 if (hotSeat)
                     SetPlayerAttributes();
                 Run();
                 output.WriteLine(Language.appText.Restart);
-                if (Console.ReadLine() == "y") {
-                    Run();
-                } else {
-                    MainMenu.CreateMainMenu();
+                if (Console.ReadLine() == "y" && hotSeat)
+                {
+                    MainMenu.RenderGame(hotSeat);
                 }
-            //} while (Console.ReadKey().Key != ConsoleKey.Q || Console.ReadKey().Key != ConsoleKey.Enter);
+                else
+                {
+                    Environment.Exit(0);
+                }
+            } while (Console.ReadKey().Key != ConsoleKey.Q || Console.ReadKey().Key != ConsoleKey.Enter);
         }
 
         private static void Run()
         {
+            currentPlayerOutput = String.Empty;
             output.WriteLine(Language.appText.Welcome + "\n");
             for (int i = 0; i < board.GetLength(0); i++)
             {
@@ -73,36 +83,48 @@
                     board[i, j] = " ";
                 }
             }
-            //do
-            //{
-                while (!gameOver) {
+            do
+            {
+                while (!gameOver)
+                {
                     Console.Clear();
                     DrawBoard(board);
                     DisplayCurrentPlayer();
                     string inputText = System.Console.ReadLine() ?? string.Empty;
                     output.MoveCursor();
                     CheckInput(inputText);
-
                     CheckMarkPlacement(board, inputText);
-
                     PlaceMarks(row, col);
-                    DrawBoard(board);
+
                     CheckGameState();
-                    if (hotSeat)
+                    if (!hotSeat)
                         PlaceAIMark();
                     Console.Clear();
-                    DrawBoard(board);
+                    if (gameOver == true)
+                    {
+                        output.AddColor(currentPlayerOutput + Language.appText.Winner, outputColor);
+                    }
                 }
-            //} while (Console.ReadKey().Key != ConsoleKey.R || Console.ReadKey().Key != ConsoleKey.Enter && gameOver == false);
+            } while (Console.ReadKey().Key != ConsoleKey.R || Console.ReadKey().Key != ConsoleKey.Enter && gameOver == false);
         }
 
         private static void SetPlayerAttributes()
         {
             output.Write(Language.appText.Player1Name);
             player1Name = Console.ReadLine() ?? String.Empty;
+            while (player1Name == string.Empty)
+            {
+                output.Write(Language.appText.Player1Name);
+                player1Name = Console.ReadLine() ?? String.Empty;
+            }
 
             output.Write(Language.appText.Player2Name);
             player2Name = Console.ReadLine() ?? String.Empty;
+            while (player2Name == string.Empty)
+            {
+                output.Write(Language.appText.Player2Name);
+                player2Name = Console.ReadLine() ?? String.Empty;
+            }
         }
 
         private static string DisplayCorrectPlayer()
@@ -156,9 +178,10 @@
 
         private static void NewInputs(string inputText, string inputRow, string inputCol)
         {
-            DrawBoard(board);
+            Console.Write(" \n");
             output.MoveCursor();
             inputText = System.Console.ReadLine() ?? string.Empty;
+
             if (inputText == "")
                 NewInputs(inputText, inputRow, inputCol);
             inputRow = inputText.Split(' ')[0];
@@ -202,7 +225,7 @@
                 int colAI = random.Next(board.GetLength(0));
                 board[rowAI, colAI] = player2Mark;
                 DrawBoard(board);
-                
+
                 if (board[rowAI, colAI] == player1Mark)
                 {
                     output.AddColor(Language.appText.AIStole, ANSI_COLORS.RED);
@@ -221,8 +244,8 @@
                 return;
 
             DrawBoard(board);
-            string currentPlayerOutput = currentPlayer.ToString();
-            string outputColor = player1Color;
+            currentPlayerOutput = currentPlayer.ToString();
+            outputColor = player1Color;
             if (gameState == -1)
             {
                 currentPlayerOutput = player2Name;

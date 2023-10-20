@@ -49,7 +49,7 @@ At times it is advisable to make flowcharts for smaler segments of code.
 
    - The game is currently unable to find the winner in all cases. Change the code so that it can do so (do not change the strategy for doing so).
 
-7. **More input** BASICALLY DONE, CAN ONLY PRESS Q + ENTER AFTER R + ENTER IS PRESSED AND NOT RESTART IS TRUE
+7. **More input** 
 
    - The player should at any time be able to type q + <Enter> to quit.
    - The Player should at any time be able to type r + <Enter> to restart the current game
