@@ -51,8 +51,6 @@ namespace MAINMENU
             do
             {
                 Console.Clear();
-                //If there is a winner
-                //Display winner
                 for (int i = 0; i < options.Length; i++)
                 {
                     if (i == currentSelection)

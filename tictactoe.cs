@@ -2,14 +2,10 @@
 {
     using Utils;
     using MAINMENU;
-    using SETTINGS;
     using LANGUAGE;
-    using System.Net.NetworkInformation;
-    using System.Runtime.InteropServices;
 
     class TicTacToe
     {
-        private const int EMPTY = 0;
         private const int PLAYER1 = 1;
         private const int PLAYER2 = -1;
         private static string[,] board = {
@@ -46,16 +42,18 @@
 
         private static string currentPlayerOutput = String.Empty;
         private static string outputColor = ANSI_COLORS.WHITE;
+        private static string inputText = String.Empty;
 
 
 
         public TicTacToe(bool chosenMode)
         {
+            inputText = string.Empty;
             gameOver = false;
             player1Name = Language.appText.Player1DefaultName;
             hotSeat = chosenMode;
-            do
-            {
+            //do
+            //{
                 Console.Clear();
                 if (hotSeat)
                     SetPlayerAttributes();
@@ -69,7 +67,7 @@
                 {
                     Environment.Exit(0);
                 }
-            } while (Console.ReadKey().Key != ConsoleKey.Q || Console.ReadKey().Key != ConsoleKey.Enter);
+            //} while (Console.ReadKey().Key != ConsoleKey.Q || Console.ReadKey().Key != ConsoleKey.Enter);
         }
 
         private static void Run()
@@ -83,8 +81,8 @@
                     board[i, j] = " ";
                 }
             }
-            do
-            {
+            //do
+            //{
                 while (!gameOver)
                 {
                     Console.Clear();
@@ -105,7 +103,7 @@
                         output.AddColor(currentPlayerOutput + Language.appText.Winner, outputColor);
                     }
                 }
-            } while (Console.ReadKey().Key != ConsoleKey.R || Console.ReadKey().Key != ConsoleKey.Enter && gameOver == false);
+            //} while (Console.ReadKey().Key != ConsoleKey.R || Console.ReadKey().Key != ConsoleKey.Enter && gameOver == false);
         }
 
         private static void SetPlayerAttributes()
@@ -218,7 +216,7 @@
 
         private static void PlaceAIMark()
         {
-            if (currentPlayer != 1 && hotSeat)
+            if (currentPlayer != PLAYER1 && hotSeat)
             {
                 Random random = new Random();
                 int rowAI = random.Next(board.GetLength(0));
