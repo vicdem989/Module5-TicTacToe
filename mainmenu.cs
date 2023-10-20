@@ -8,10 +8,12 @@ namespace MAINMENU
 
     public class MainMenu
     {
+        public static Output output = new Output();
 
         public static void CreateMainMenu()
         {
-            int choice = MainMenu.MultipleChoice(true, "1P Game", "2P Game", "Settings", "Quit");
+            Settings.CheckConfig();
+            int choice = MainMenu.MultipleChoice(true, Language.appText.OneP, Language.appText.TwoP, Language.appText.Settings, Language.appText.Quit);
             if (choice == 0)
             {
                 RenderGame(false);
@@ -37,10 +39,7 @@ namespace MAINMENU
         }
         public static int MultipleChoice(bool canCancel, params string[] options)
         {
-            const int startX = 15;
-            const int startY = 4;
             const int optionsPerLine = 1;
-            const int spacingPerLine = 0;
 
             int currentSelection = 0;
 
@@ -55,11 +54,10 @@ namespace MAINMENU
                 //Display winner
                 for (int i = 0; i < options.Length; i++)
                 {
-                    Console.SetCursorPosition(startX + (i % optionsPerLine) * spacingPerLine, startY + i / optionsPerLine);
                     if (i == currentSelection)
                         Console.ForegroundColor = ConsoleColor.Red;
 
-                    Console.WriteLine(options[i]);
+                    output.WriteLine(options[i]);
 
                     Console.ResetColor();
                 }

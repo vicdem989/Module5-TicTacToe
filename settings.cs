@@ -10,34 +10,15 @@ namespace SETTINGS
     public class Settings
     {
 
-        /*
-
-        Check if config.txt exists
-            if !exists
-                create new file
-                dfault language to EeN
-        
-            else 
-                get language from config.txt
-
-        if currentLanguage == changed
-            output new currentLanguage to config.txt
-        
-
-        Check if language has a file (if exists)
-
-        */
-
-        private static List<string> settings = new List<string>();
         private static string path = "config.txt";
-        Settings()
+        public Settings()
         {
-            CheckConfig();
+            Language.currentLanguage = CheckConfig();
         }
 
         public static void CreateSettings()
         {
-            int choice = MainMenu.MultipleChoice(true, "English", "Norwegian");
+            int choice = MainMenu.MultipleChoice(true, Language.appText.English, Language.appText.Norwegian);
             if (choice == 0)
             {
                 Language.currentLanguage = "en";
@@ -52,7 +33,7 @@ namespace SETTINGS
             MainMenu.CreateMainMenu();
         }
 
-        public static void CheckConfig()
+        public static string CheckConfig()
         {
             if (!File.Exists(path))
             {
@@ -64,7 +45,9 @@ namespace SETTINGS
             else
             {
                 GetLanguageFromFile();
+                Language.SetLanguage();
             }
+            return Language.currentLanguage;
         }
 
         private static string ChangeLanguage() {
@@ -84,7 +67,7 @@ namespace SETTINGS
                 sw.Write(text);
             sw.Close();
         }
-        public static void GetLanguageFromFile()
+        public static string GetLanguageFromFile()
         {
             StreamReader sr = new StreamReader(path);
             String line = string.Empty;
@@ -93,10 +76,12 @@ namespace SETTINGS
             if (line.Contains("Language"))
             {
                 desiredLanguage = line.Split("=");
-                Language.currentLanguage = desiredLanguage[1];
+                Language.currentLanguage = desiredLanguage[1].Trim();
             }
             sr.Close();
             Console.WriteLine(Language.currentLanguage);
+            return Language.currentLanguage;
+
         }
     }
 }

@@ -26,10 +26,11 @@ namespace Utils
             consoleLength = Console.WindowWidth / 2;
         }
 
-        public Output WriteLine(string text)
+        public Output WriteLine(string text, int indentLevel = 0)
         {
             ResetValues();
-            indentLevel = text.Length / 2;
+            if(indentLevel == 0)
+                indentLevel = text.Length / 2;
             consoleLength -= indentLevel;
 
             for (int i = 0; i < consoleLength; i++)
@@ -40,10 +41,11 @@ namespace Utils
             return this;
         }
 
-        public Output Write(string text)
+        public Output Write(string text, int indentLevel = 0)
         {
             ResetValues();
-            indentLevel = text.Length / 2;
+            if(indentLevel == 0)
+                indentLevel = text.Length / 2;
             consoleLength -= indentLevel;
 
             for (int i = 0; i < consoleLength; i++)
